@@ -1,0 +1,29 @@
+/**
+	Music Player
+*/
+
+<div data-role="page" id="page2">
+	
+	<script type="text/javascript">
+		$("#page2").bind("pageshow", function(event){
+			var url = $.url(document.location);
+            var arg1 = url.param("arg1");
+			$("#span1").html("<b>Argument passed to this page = " + arg1 + 
+				"</b><br>Data passed in event argument of pageshow = " + event.data);
+		});
+	</script>
+
+	<div data-role="header">
+		<h1>Page 2</h1>
+	</div>
+
+	<div data-role="content">
+		<span id="span1"></span>	
+		<br>
+		<a href="" data-role="button" data-inline="true" data-rel="back">Back</a>
+	</div>
+
+	<div data-role="footer">
+		<h4>Page2 Footer</h4>
+	</div>
+</div>

@@ -1,0 +1,228 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no" />
+	<title>Ghana Playlist Mobile App</title> 
+	<link rel="stylesheet" href="css/custom.css">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+    <script src="phonegap.js"></script>
+	<script src="script/soundmanager2.js"></script>
+    <script src="script/jquery.cookie.js"></script>
+	<script type="text/javaScript" src="script/app.js"></script>
+    <script type="text/javaScript" src="script/player.js"></script>
+    <script type="text/javaScript" src="script/playlist.js"></script>
+
+</head> 
+<body> 
+    <div id="content" >
+    <div data-role="page" data-url="home" id="home">
+        <div data-role="header" data-id="header1" data-position="fixed"  data-theme="a"> 
+            <h1 class="site_name">Ghana Music</h1>
+            <a href="#" id="open-panel" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Menu</a>
+            <a href="#player" data-icon="arrow-r" class="ui-btn-right" id="nowPlayingButton" data-iconpos="notext">Playing</a>
+        </div>
+        <div data-role="content">
+              <ul id="songList" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Find a song or artist..." data-filter-theme="d"></ul>
+        </div>
+		
+		<div data-role="footer" class="nav-glyphish-example" data-position="fixed"  data-theme="a">
+		<div data-role="navbar" class="nav-glyphish-example" data-grid="d">
+		<ul>
+			<li><a href="#home" id="music" data-icon="custom">Music</a></li>
+			<li><a href="#featured" id="featured" data-icon="custom">Featured</a>
+			<li><a href="#playlists" id="playlist" data-icon="custom">Playlists</a></li>
+			<li><a href="#browse" id="browse" data-icon="custom">Browse</a></li>
+			<li><a href="#" data-rel="external" id="mysongs" onclick="update_views('mysongs'); return false;" data-icon="custom">My Songs</a></li>
+		</ul>
+		</div>
+	</div>
+
+    <div data-role="panel" data-position-fixed="true" data-theme="a" id="nav-panel">
+
+        <ul data-role="listview" data-theme="a" class="nav-search">
+            <li data-icon="delete"><a href="#" data-rel="close">Close menu</a></li>
+                <li><a href="#" onclick="show_live_listing(); return false;">Live Now</a></li>
+                <li><a href="javaScript:;" onclick="update_views('plays'); return false;">Most Popular</a></li>
+                <li><a href="#" onclick="update_playlist_views('featured'); return false;">Featured Playlists</a></li>
+                <li><a href="#" onclick="update_views('mysongs'); return false;">My Songs</a></li>
+                <li><a href="#" onclick="update_playlist_views('myplaylists');">My Playlists</a></li>
+                <li><a href="#aboutus">About Us</a></li>
+                <li><a href="#login" data-icon="gear" data-iconpos="notext">Login</a></li>
+        </ul>                     
+
+    </div><!-- /panel -->
+
+        <div data-role="panel" data-position="right" data-position-fixed="true" data-display="overlay" data-theme="b" id="add-form">       
+    </div><!-- /panel -->
+
+</div> <!-- //end home -->
+
+<!-- Browse page -->
+ <div data-role="page" data-url="browse">
+
+        <div data-role="header" data-id="browseHeader" data-position="fixed"  data-theme="a"> 
+            <h1>Browse Music</h1>
+            <a href="#home" data-icon="home" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Home</a>
+        </div>
+        <div data-role="content">
+              <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Find a song..." data-filter-theme="d"></ul>
+        </div>
+       
+</div>
+<!-- Playlists page -->
+<div data-role="page" data-url="playlists">
+            <div data-role="header" data-id="header1">
+            <h1>Playlists</h1>
+            <a href="#home" data-icon="home" data-direction="reverse" data-iconpos="left">Home</a>
+            <a href="" data-shadow="false" data-iconshadow="false" data-icon="arrow-r" data-iconpos="notext" data-rel="back" data-ajax="false">Back</a>
+            </div>
+            
+            <div data-role="content">
+              <ul data-role="listview" id="playlistsContent" data-inset="true">
+              </ul>
+        
+            </div>
+            
+            <div data-role="footer" id="footer">
+            </div>
+            
+            
+  </div>
+
+   <!-- Featured Music page -->
+    <div  data-role="page" data-url="featured" id="featuredPage">
+         <div data-role="header" data-id="header1" data-position="fixed"  data-theme="a"> 
+            <h1>Featured Music</h1>
+            <a href="#home" data-icon="home" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Home</a>
+              <a href="#add-form" data-icon="gear" data-iconpos="notext">Add</a>
+        </div>
+        
+        <div data-role="content">
+            <ul data-role="listview" data-inset="false" data-filter="true" id="featuredSongList">
+            </ul>
+
+        </div>
+        
+       <div data-role="footer" class="nav-glyphish-example" data-position="fixed"  data-theme="a">
+         
+        </div>
+
+   </div>
+    
+    <!-- Player -->
+    <div data-role="page" id="player">
+        <div data-role="header" data-id="header1" data-position="fixed">
+            <a href="#home"  data-icon="arrow-l" data-icon="home"  data-direction="reserve" data-iconpos="notext">Back</a>
+            <h1 id="songName">Nothing Playing...</h1>
+                <a href="#" data-icon="bars" data-iconpos="left" data-role="button"  onclick="showSongsList(); return false;">Songs</a>
+        </div>
+        <div data-role="content" style="height: 100%;">
+            <img id="coverart"/>
+        </div>
+        <div data-role="footer" data-position="fixed">
+        <div id="playerFooter"></div>
+	   <table style="margin-left: 5px; margin-right: 5px;">
+                <tr>
+                    <td><p id="songCurrentpos">0:00</p></td>
+                    <td width="100%" class="slider-shit">
+                        <input type="range" name="slider" id="posSlider" value="0" min="0" max="100" data-theme="d" data-highlight="true" />
+                    </td>
+                    <td><p id="songDuration">0:00</p></td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td width="100%">
+                        <div data-role="controlgroup" data-type="horizontal">
+                            <fieldset class="ui-grid-b full-width-buttons">
+                                <div class="ui-block-a">
+                                    <a data-role="button" data-iconpos="top" data-icon="back" id="previousSong">Previous</a>
+                                </div>
+                                <div class="ui-block-b">
+                                    <a data-role="button" data-iconpos="top" onclick="togglePlay(); return false;" data-icon="arrow-r" id="playSong">Play</a>
+                                </div>
+                                <div class="ui-block-c">
+                                    <a data-role="button" data-iconpos="top" data-icon="forward" id="nextSong">Next</a>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </td>
+                    <td>
+                        <div data-role="controlgroup" data-type="horizontal">
+                            <a href="#songOptionsPage" id="songOptionsButton" data-role="button" data-iconpos="top" data-icon="gear" data-iconpos="notext" data-rel="dialog">        </a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!-- Playlists songs -->
+   <div data-role="dialog" data-url="showSongsLists" id="showSongsLists">
+    <div data-role="header" data-theme="d">
+            <h1>Playlist Songs</h1>
+        </div>
+
+        <div data-role="content">
+              <ul data-role="listview" id="playlistsSongs" style="max-height:310px;" data-inset="true">
+              </ul>
+        
+        </div>
+    
+    </div>
+  
+    <!-- Dialog -->
+    <div data-role="dialog" data-url="songOptionsPage" id="songOptionsPage">
+        <div data-role="content">
+            <h3>Music Options</h3>
+            <div class="containing-element">
+                <select name="slider" id="shuffleSlider" data-role="slider" data-track-theme="a">
+                    <option value="off">Shuffle Off</option>
+                    <option value="on">Shuffle On</option>
+                </select>
+            </div>
+            <div class="containing-element">
+                <select name="slider" id="repeatSlider" data-role="slider" data-track-theme="a">
+                    <option value="off">Repeat Off</option>
+                    <option value="on">Repeat On</option>
+                </select>
+            </div>
+            <a data-role="button" data-iconpos="left" data-icon="back" data-rel="back">Back</a>
+        </div>
+    </div>
+   
+    <!-- Login page -->
+    
+    <div data-role="page" id="login" data-url="login">
+        
+         <div data-role="header" data-id="header1" data-position="fixed">
+            <a href="#home"  data-icon="arrow-l" data-icon="home"  data-direction="reserve" data-iconpos="notext">Back</a>
+            <h1 id="songName">Login - Ghana Music</h1>
+        </div>
+        
+        <div data-role="content">
+            <div class="login_messsage"></div>
+        <form class="userform" id="login_form">
+
+            <h2>Login</h2>
+            
+            <label for="name">Username:</label>
+            <input type="text" name="name" id="name" value="" data-clear-btn="true" data-mini="true">
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" value="" data-clear-btn="true" autocomplete="off" data-mini="true">
+
+            <div class="ui-grid-a">
+                <div class="ui-block-a"><a href="#home" data-rel="close" data-role="button" data-theme="c" data-mini="true">Cancel</a></div>
+                <div class="ui-block-b">
+                    <input type="submit" id="submit_login" data-rol="button" data-theme="b" data-mini="true" value="Login">
+                    </div>
+            </div>
+        </form>
+            </div>
+    </div>
+
+    </div>
+</body>
+</html>
