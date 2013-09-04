@@ -218,19 +218,19 @@ function show_live_listing(){
     return false;
 }
 function update_views(by) {  
-    if(by === 'mysongs'){
+    if(by == 'mysongs'){
         authenticate();
         by = 'add_date';
-    
     }
+	
     var user_id = $.cookie('user_id');
         var $ul = $('#songList');
          $ul.html('');
-          $.getJSON(SITE_NAME+'get_music?order_by='+by+'&user_id='+user_id+'&limit=20', function(response){
-            showProgress();
+		 showProgress();
             songs = [];
+          $.getJSON(SITE_NAME+'get_music?order_by='+by+'&user_id='+user_id+'&limit=20', function(response){
+            
                      $.each( response, function ( key, val ) {
-                           // html += "<li>";
                             var a = $("<a href='#player' id='#track'><img src='"+val.visual+"'><h3 class='ui-li-heading'>" + val.basename + "</h3><p>Artist: "+val.artist+"<br> plays("+ val.plays+")</p></a>");
                             $(a).click({ id: key }, function (event) {
                                 playSong(event.data.id);

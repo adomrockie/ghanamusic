@@ -35,7 +35,7 @@
 			<li><a href="#featured" id="featured" data-icon="custom">Featured</a>
 			<li><a href="#playlists" id="playlist" data-icon="custom">Playlists</a></li>
 			<li><a href="#browse" id="browse" data-icon="custom">Browse</a></li>
-			<li><a href="#" data-rel="external" id="mysongs" onclick="update_views('mysongs'); return false;" data-icon="custom">My Songs</a></li>
+			<li><a href="#" id="mysongs" onclick="update_views('mysongs'); return false;" data-icon="custom">My Songs</a></li>
 		</ul>
 		</div>
 	</div>
@@ -44,10 +44,10 @@
 
         <ul data-role="listview" data-theme="a" class="nav-search">
             <li data-icon="delete"><a href="#" data-rel="close">Close menu</a></li>
-                <li><a href="#" onclick="show_live_listing(); return false;">Live Now</a></li>
-                <li><a href="javaScript:;" onclick="update_views('plays'); return false;">Most Popular</a></li>
-                <li><a href="#" onclick="update_playlist_views('featured'); return false;">Featured Playlists</a></li>
-                <li><a href="#" onclick="update_views('mysongs'); return false;">My Songs</a></li>
+                <li><a href="javascript:void(0)" onclick="show_live_listing(); return false">Live Now</a></li>
+                <li><a href="javascript:void(0)" onclick="update_views('plays'); return false" data-rel="close" id="most_popular">Most Popular</a></li>
+			    <li><a href="#" onclick="update_playlist_views('featured'); return false;">Featured Playlists</a></li> 
+                <li><a href="#" onclick="update_views('mysongs'); return false">My Songs</a></li>
                 <li><a href="#" onclick="update_playlist_views('myplaylists');">My Playlists</a></li>
                 <li><a href="#aboutus">About Us</a></li>
                 <li><a href="#login" data-icon="gear" data-iconpos="notext">Login</a></li>
@@ -204,8 +204,7 @@
         
         <div data-role="content">
             <div class="login_messsage"></div>
-        <form class="userform" id="login_form">
-
+			<form class="userform" id="login_form">
             <h2>Login</h2>
             
             <label for="name">Username:</label>
@@ -220,9 +219,9 @@
                     </div>
             </div>
         </form>
-            </div>
+        </div>
     </div>
 
-    </div>
+</div>
 </body>
 </html>
